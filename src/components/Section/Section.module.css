@@ -1,0 +1,8 @@
+section {
+  padding-top: 20px;
+}
+
+section.gallery {
+  background-color: #fff;
+  --gap: 20px;
+}
