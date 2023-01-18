@@ -1,29 +1,19 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Modal } from 'components/Modal/Modal';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import css from './ImageGalleryItem.module.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
+export const ImageGalleryItem =({ webformatURL, tags, previewURL, largeImageURL })=>{
+const [showModal, setShowModal] = useState(false)
+
+ const toggleModal = () => {
+  setShowModal(prev=>!prev)
   };
-
-
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
-
-
-  render() {
-    const { webformatURL, tags, previewURL, largeImageURL } = this.props;
-    const { showModal } = this.state;
     return (
       <>
-        <li className={css['photo-card']} onClick={this.toggleModal}>
+        <li className={css['photo-card']} onClick={toggleModal}>
           <LazyLoadImage
             src={webformatURL}
             alt={tags}
@@ -34,7 +24,7 @@ export class ImageGalleryItem extends Component {
         </li>
         {showModal && (
           <Modal 
-          onClose={this.toggleModal}
+          onClose={toggleModal}
           >
             <LazyLoadImage
             src={largeImageURL}
@@ -46,4 +36,4 @@ export class ImageGalleryItem extends Component {
       </>
     );
   }
-}
+

@@ -21,35 +21,37 @@ export const ImageGallery = ({ searchQuery }) => {
   const [imgData, setImgData] = useState([]);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState(STATUS.idle);
-  const firstMount = useRef(true);
 
+  const isFirstMount = useRef(true);
   const per_page = 12;
 
+  useEffect(()=>{
+    setImgData([])
+    setPage(1)
+  },[searchQuery])
+
   useEffect(() => {
-    if (firstMount.current) {
-      firstMount.current = false;
-      return;
-    }
-    console.log('useEffect');
-    if (!searchQuery) {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
       return;
     }
     setStatus(STATUS.pending);
     fetchPichureData(searchQuery, page, per_page)
       .then(res => {
         if (res.data.total !== 0) {
-          return res;
+          return res.data.hits;
         }
         throw new Error('No images matching your request');
       })
       .then(res => {
-        setImgData(prev => [...prev, ...res.data.hits]);
+        setImgData(prev => [...prev, ...res]);
       })
       .catch(err => {
         toast.error(err.message);
       })
       .finally(() => setStatus(STATUS.success));
   }, [page, searchQuery]);
+
 
   return (
     <Section className="gallery">

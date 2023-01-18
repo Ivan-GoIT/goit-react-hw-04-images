@@ -1,32 +1,29 @@
 import css from './Searchbar.module.css';
 import { ImSearch } from 'react-icons/im';
-import { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-export class Searchbar extends Component {
-  state = {
-    formSearchQuery: '',
+export const Searchbar=({onSubmit})=> {
+const [formSearchQuery, setFormSearchQuery] = useState('')
+
+
+  const onChangeHandler = evt => {
+    setFormSearchQuery(evt.currentTarget.value.trim());
   };
 
-  onChangeHandler = evt => {
-    this.setState({ formSearchQuery: evt.currentTarget.value.trim() });
-  };
-
-  onSubmitFormHandler = evt => {
+  const onSubmitFormHandler = evt => {
     evt.preventDefault();
-    const{formSearchQuery}=this.state
     if (!formSearchQuery.length) {
       toast.warning('Enter something in the search bar');
       return;
     }
-    this.props.onSubmit(formSearchQuery);
-    this.setState({formSearchQuery:''})
+    onSubmit(formSearchQuery);
+    setFormSearchQuery('')
   };
 
-  render() {
     return (
       <header className={css.searchbar}>
-        <form className={css.searchForm} onSubmit={this.onSubmitFormHandler}>
+        <form className={css.searchForm} onSubmit={onSubmitFormHandler}>
           <button type="submit" className={css['searchForm-button']}>
             <span className={css['button-labe']}>
               <ImSearch className={css.icon} />
@@ -38,12 +35,11 @@ export class Searchbar extends Component {
             type="text"
             autoComplete="off"
             autoFocus
-            value={this.state.formSearchQuery}
+            value={formSearchQuery}
             placeholder="Search images and photos"
-            onChange={this.onChangeHandler}
+            onChange={onChangeHandler}
           />
         </form>
       </header>
     );
   }
-}
