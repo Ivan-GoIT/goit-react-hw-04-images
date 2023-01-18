@@ -25,10 +25,10 @@ export const ImageGallery = ({ searchQuery }) => {
   const isFirstMount = useRef(true);
   const per_page = 12;
 
-  useEffect(()=>{
-    setImgData([])
-    setPage(1)
-  },[searchQuery])
+  useEffect(() => {
+    setImgData([]);
+    setPage(1);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (isFirstMount.current) {
@@ -51,7 +51,6 @@ export const ImageGallery = ({ searchQuery }) => {
       })
       .finally(() => setStatus(STATUS.success));
   }, [page, searchQuery]);
-
 
   return (
     <Section className="gallery">

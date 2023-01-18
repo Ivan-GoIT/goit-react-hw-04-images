@@ -1,3 +1,3 @@
-import fetchPichureData from "./fetchPichureData";
+import fetchPichureData from './fetchPichureData';
 
-export {fetchPichureData,}
+export { fetchPichureData };
